@@ -62,7 +62,10 @@ def main():
             
             # Send discovery broadcast
             if now - last_discovery_time >= discovery_interval:
-                discovery_sock.sendto(b"DISCOVER", ('<broadcast>', args.discovery_port))
+                # Use target IP for discovery (works on all platforms)
+                # If target is localhost, broadcast locally; otherwise use broadcast address
+                broadcast_addr = '255.255.255.255' if args.target_ip != '127.0.0.1' else '127.0.0.1'
+                discovery_sock.sendto(b"DISCOVER", (broadcast_addr, args.discovery_port))
                 last_discovery_time = now
             
             # Send data

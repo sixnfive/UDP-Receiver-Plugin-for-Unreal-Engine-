@@ -19,9 +19,21 @@ The Plugin features:
 
 ## Installation
 
+**For C++ Projects**
+
 1. Copy the entire `UDPReceiver` folder to `YourProject/Plugins/`
-2. Restart Unreal Engine
-3. The plugin will be automatically compiled on first launch
+2. Close Unreal Engine (if open)
+3. Right-click on `YourProject.uproject` → "Generate Visual Studio/Xcode project files"
+4. Open the project in your IDE and build
+5. Launch Unreal Engine
+
+**For Blueprint-Only Projects**
+
+1. In Unreal Editor: **Tools** → **New C++ Class** → **None** → "Create Class"
+2. Close Unreal Engine
+3. Follow the steps above for C++ Projects
+
+> **Note**: If you see "Engine modules are out of date" error, you need to compile the plugin (see C++ Projects installation above).
 
 ## Basic Usage
 
@@ -144,4 +156,31 @@ Event OnAngleReceived
 
 - **Data Format**: Float (4 bytes, little-endian) | **Range**: 0.0 - 360.0 degrees | **Port**: 5005 (configurable)
 - **Discovery Protocol**: **Port**: 5006 (configurable) | **Interval**: 2 seconds (configurable)
+
+## Troubleshooting
+
+### "Engine modules are out of date" Error
+
+This means the plugin needs to be compiled. You have two options:
+
+1. **Compile the plugin yourself** (see C++ Projects installation above)
+2. **Download precompiled binaries** from [Releases](https://github.com/sixnfive/UDP-Receiver-Plugin-for-Unreal-Engine-/releases)
+
+### Plugin doesn't appear in Components list
+
+1. Verify the plugin is in `YourProject/Plugins/UDPReceiver/`
+2. Check that `UDPReceiver.uplugin` exists
+3. Restart Unreal Engine
+4. Go to **Edit** → **Plugins** and verify "UDP Receiver" is enabled
+
+### Not receiving UDP data
+
+1. Check Windows Firewall / macOS Firewall allows ports 5005 and 5006
+2. Verify the Python simulator is sending to the correct IP address
+3. Check **Window** → **Developer Tools** → **Output Log** for error messages
+4. Verify `bIsListening` is `true` in the component properties
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 

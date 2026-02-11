@@ -340,24 +340,25 @@ void UUDPReceiverComponent::ApplyRotation(float Angle)
 		return;
 	}
 
-	// Get the current rotation
-	FRotator CurrentRotation = Owner->GetActorRotation();
+	// Create a new rotator instead of reading current rotation
+	// This prevents issues with Unreal's automatic normalization
+	FRotator NewRotation = FRotator::ZeroRotator;
     
 	// Apply the angle to the specified axis
 	switch (RotationAxis)
 	{
 		case EAxis::X:
-			CurrentRotation.Roll = Angle;
+			NewRotation.Roll = Angle;
 			break;
 		case EAxis::Y:
-			CurrentRotation.Pitch = Angle;
+			NewRotation.Pitch = Angle;
 			break;
 		case EAxis::Z:
 		default:
-			CurrentRotation.Yaw = Angle;
+			NewRotation.Yaw = Angle;
 			break;
 	}
     
 	// Set the new rotation
-	Owner->SetActorRotation(CurrentRotation);
+	Owner->SetActorRotation(NewRotation);
 }
