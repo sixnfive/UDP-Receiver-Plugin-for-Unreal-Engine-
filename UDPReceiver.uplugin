@@ -5,7 +5,7 @@
 	"FriendlyName": "UDP Receiver",
 	"Description": "UDP network component for receiving rotation data from ESP32 or other devices. Includes automatic device discovery and smooth rotation interpolation. Compatible with UE 5.4 - 5.6+",
 	"Category": "Networking",
-	"CreatedBy": "Nicolò Baldi",
+	"CreatedBy": "SixNFive Lab",
 	"CreatedByURL": "",
 	"DocsURL": "",
 	"MarketplaceURL": "",
