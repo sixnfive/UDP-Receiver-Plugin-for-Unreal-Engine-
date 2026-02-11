@@ -1,15 +1,21 @@
 # UDP Receiver Plugin for Unreal Engine
 
-Plugin to receive rotation data via UDP from ESP32 or other network devices.
+The Plugin is designed to receive rotation data from a microcontroller (ESP32) or other network devices through UDP. 
+If you dont have a device with rotational sensor, you can still test the system with the included esp32_simulator.py, a python script that simulates the behaviour of the sensor.
+The Plugin features:
 
-## Features
-
-- **Asynchronous UDP reception** - Receives data without blocking the game thread
+- **UDP reception** - Receives UDP data without blocking the game thread
 - **Automatic discovery** - Automatically finds ESP32 devices on the network
-- **Rotation smoothing** - Smooth interpolation of angles
-- **Thread-safe** - Safe handling of network data
+- **Rotation smoothing** - Smooth interpolation of angles (configurable)
 - **Blueprint configurable** - All settings accessible from the editor
 - **Blueprint events** - React to received data with custom events
+- **ESP32 python simulator** - To test the behaviour of the system
+
+## Requirements
+
+- **Unreal Engine**: 5.4 - 5.6+ (tested on 5.4, 5.5, 5.6)
+- **Platforms**: Windows, Mac, Linux
+- **Modules**: Sockets, Networking (included automatically)
 
 ## Installation
 
@@ -46,7 +52,7 @@ Plugin to receive rotation data via UDP from ESP32 or other network devices.
 
 ### 3. Test with Python ESP32 simulator
 
-The plugin includes a full-featured ESP32 simulator (`esp32_simulator.py`) with multiple simulation modes:
+The plugin includes a full-featured ESP32 simulator (`esp32_simulator.py`) with multiple simulation modes. You can find it in the Tools Folder.
 
 **Basic Usage:**
 ```bash
@@ -81,7 +87,6 @@ python3 esp32_simulator.py --target-ip 127.0.0.1 --rate 50
 
 **Expected Output**
 
-The simulator will display:
 ```
 ============================================================
 ESP32 SIMULATOR
@@ -100,7 +105,7 @@ Angle:  45.00° | Packets:   100 | Rate:  100.0 Hz
 Angle:  90.00° | Packets:   200 | Rate:  100.0 Hz
 ```
 
-## 📘 Blueprint API
+## Blueprint API
 
 ### Functions
 
@@ -124,7 +129,7 @@ Angle:  90.00° | Packets:   200 | Rate:  100.0 Hz
 - `ESP32Address` - IP of connected device
 - `PacketsReceived` - Received packet counter
 
-## Blueprint Example
+### Blueprint Example
 
 ```
 Event OnAngleReceived
@@ -137,50 +142,6 @@ Event OnAngleReceived
 
 ## Communication Protocol
 
-### Data Format
-- **Type**: Float (4 bytes, little-endian)
-- **Range**: 0.0 - 360.0 degrees
-- **Port**: 5005 (configurable)
-
-### Discovery Protocol
-- **Message**: "DISCOVER" (ASCII string)
-- **Port**: 5006 (configurable)
-- **Direction**: Unreal → Broadcast
-- **Interval**: 2 seconds (configurable)
-
-## Requirements
-
-- **Unreal Engine**: 5.4 - 5.6+ (tested on 5.4, 5.5, 5.6)
-- **Platforms**: Windows, Mac, Linux
-- **Modules**: Sockets, Networking (included automatically)
-
-
-##  Troubleshooting
-
-### Component doesn't appear in the list
-
-1. Verify the plugin is in `Plugins/UDPReceiver/`
-2. Restart Unreal Engine
-3. Check that the plugin is enabled in Edit → Plugins
-
-### Compilation errors
-
-1. Verify that Unreal Engine version is 5.4+
-2. Delete the `Binaries/` and `Intermediate/` folders of the plugin
-3. Regenerate project files
-4. Recompile
-
-### Not receiving UDP data
-
-1. Verify that ports 5005 and 5006 are open in the firewall
-2. Check that the Python simulator is sending to the correct IP
-3. Check the Output Log for error messages
-4. Verify that `bIsListening` is true
-
-### ESP32 disconnects continuously
-
-1. Increase `ConnectionTimeoutSeconds` (e.g. 10.0)
-2. Verify network connection stability
-3. Check that ESP32 is sending data regularly
-
+- **Data Format**: Float (4 bytes, little-endian) | **Range**: 0.0 - 360.0 degrees | **Port**: 5005 (configurable)
+- **Discovery Protocol**: **Port**: 5006 (configurable) | **Interval**: 2 seconds (configurable)
 
